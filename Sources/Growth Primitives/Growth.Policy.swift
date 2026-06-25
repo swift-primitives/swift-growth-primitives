@@ -1,5 +1,5 @@
-public import Index_Primitives
 public import Affine_Primitives
+public import Index_Primitives
 public import Memory_Alignment_Primitives
 
 extension Growth {
@@ -48,7 +48,8 @@ extension Growth.Policy where Element: ~Copyable {
 
     /// Rounds capacity up to the given alignment boundary.
     ///
-    /// Uses `Memory.Alignment.alignUp()` per H5 — no manual arithmetic.
+    /// A request of zero rounds up to one, then up to the next multiple of
+    /// `alignment`.
     @inlinable
     public static func pageAligned(_ alignment: Memory.Alignment) -> Self {
         Self { alignment.align.up($0 == .zero ? .one : $0) }

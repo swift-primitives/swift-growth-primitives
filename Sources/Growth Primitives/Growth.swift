@@ -11,9 +11,7 @@
 
 /// Capacity-growth strategies for owned, resizable regions and buffers.
 ///
-/// Hoisted from `Buffer.Growth` in the MSB tower W3 re-layering: growth is a
-/// tier-neutral concern consumed DOWNWARD by Memory-tier regions
-/// (`Memory.Unbounded`) and Buffer-tier disciplines alike — a Buffer-namespaced
-/// policy forced an upward dependency on the Memory tier and a phantom
-/// substrate parameter under the `Buffer<S>` namespace reparameterization.
+/// A tier-neutral namespace shared by memory regions and buffer disciplines:
+/// ``Growth/Policy`` describes how fast a region's capacity grows, and
+/// ``Growth/Growable`` marks the leaves whose backing can grow at all.
 public enum Growth {}
