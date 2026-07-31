@@ -20,7 +20,7 @@ extension Growth {
 extension Growth.Policy where Element: ~Copyable {
     /// Computes the new capacity given the current capacity.
     @inlinable
-    public func newCapacity(from current: Index<Element>.Count) -> Index<Element>.Count {
+    public func capacity(from current: Index<Element>.Count) -> Index<Element>.Count {
         _apply(current)
     }
 }
@@ -51,7 +51,7 @@ extension Growth.Policy where Element: ~Copyable {
     /// A request of zero rounds up to one, then up to the next multiple of
     /// `alignment`.
     @inlinable
-    public static func pageAligned(_ alignment: Memory.Alignment) -> Self {
+    public static func paged(_ alignment: Memory.Alignment) -> Self {
         Self { alignment.align.up($0 == .zero ? .one : $0) }
     }
 }
