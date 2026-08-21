@@ -3,7 +3,7 @@ public import Index_Primitives
 public import Memory_Alignment_Primitives
 
 extension Growth {
-    /// Determines how a buffer's capacity grows when more space is needed.
+
     public struct Policy<Element: ~Copyable>: Sendable {
         @usableFromInline
         let _apply: @Sendable (Index<Element>.Count) -> Index<Element>.Count
@@ -18,7 +18,7 @@ extension Growth {
 }
 
 extension Growth.Policy where Element: ~Copyable {
-    /// Computes the new capacity given the current capacity.
+
     @inlinable
     public func capacity(from current: Index<Element>.Count) -> Index<Element>.Count {
         _apply(current)
@@ -26,13 +26,12 @@ extension Growth.Policy where Element: ~Copyable {
 }
 
 extension Growth.Policy where Element: ~Copyable {
-    /// Doubles the current capacity (minimum 1).
+
     @inlinable
     public static var doubling: Self {
         Self { max($0 + $0, .one) }
     }
 
-    /// Multiplies the current capacity by the given factor (rounded up, minimum 1).
     @inlinable
     public static func factor(
         _ scale: Affine.Discrete.Ratio<Element, Element>
@@ -40,16 +39,11 @@ extension Growth.Policy where Element: ~Copyable {
         Self { Index<Element>.Count.max($0 * scale, .one) }
     }
 
-    /// Returns the exact capacity requested (no growth beyond what is needed).
     @inlinable
     public static var exact: Self {
         Self { $0 }
     }
 
-    /// Rounds capacity up to the given alignment boundary.
-    ///
-    /// A request of zero rounds up to one, then up to the next multiple of
-    /// `alignment`.
     @inlinable
     public static func paged(_ alignment: Memory.Alignment) -> Self {
         Self { alignment.align.up($0 == .zero ? .one : $0) }
